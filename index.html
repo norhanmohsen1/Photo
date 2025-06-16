@@ -51,27 +51,26 @@
     const accessToken = urlParams.get('access_token');
 
     if (accessToken) {
-      fetch('https://0cf1601b-3ebb-4946-a817-c2a0c144cbf1-00-mkeig80bbqpe.kirk.replit.dev/photos', {
+      fetch("https://photoslibrary.googleapis.com/v1/mediaItems?pageSize=50", {
         headers: {
-          'Authorization': `Bearer ${accessToken}`
+          Authorization: "Bearer " + accessToken
         }
       })
       .then(res => res.json())
       .then(data => {
         const gallery = document.getElementById("gallery");
-        if (!data.photos || data.photos.length === 0) {
-          gallery.innerHTML = "<p>لا توجد صور لعرضها.</p>";
-          return;
+        if (data.mediaItems && data.mediaItems.length > 0) {
+          data.mediaItems.forEach(photo => {
+            const img = document.createElement("img");
+            img.src = photo.baseUrl;
+            gallery.appendChild(img);
+          });
+        } else {
+          gallery.innerHTML = "<p>لا يوجد صور في حسابك.</p>";
         }
-        data.photos.forEach(photo => {
-          const img = document.createElement("img");
-          img.src = photo.baseUrl;
-          gallery.appendChild(img);
-        });
       })
       .catch(err => {
-        console.error("Error loading photos", err);
-        document.getElementById("gallery").innerHTML = "<p>حدث خطأ أثناء تحميل الصور.</p>";
+        console.error("فشل تحميل الصور", err);
       });
     }
   </script>
