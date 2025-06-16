@@ -46,8 +46,29 @@
     function loginWithGoogle() {
       window.location.href = "https://0cf1601b-3ebb-4946-a817-c2a0c144cbf1-00-mkeig80bbqpe.kirk.replit.dev/auth/google";
     }
-  </script>
 
-  <script src="main.js"></script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get('access_token');
+
+    if (accessToken) {
+      fetch('https://0cf1601b-3ebb-4946-a817-c2a0c144cbf1-00-mkeig80bbqpe.kirk.replit.dev/photos', {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        const gallery = document.getElementById("gallery");
+        data.photos.forEach(photo => {
+          const img = document.createElement("img");
+          img.src = photo.baseUrl;
+          gallery.appendChild(img);
+        });
+      })
+      .catch(err => {
+        console.error("Error loading photos", err);
+      });
+    }
+  </script>
 </body>
 </html>
