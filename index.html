@@ -51,18 +51,34 @@
     const accessToken = urlParams.get('access_token');
 
     if (accessToken) {
-      fetch("https://photoslibrary.googleapis.com/v1/mediaItems?pageSize=50", {
+      // تعديل هنا: استخدام endpoint البحث عن الصور
+      fetch("https://photoslibrary.googleapis.com/v1/mediaItems:search", {
+        method: "POST", // يجب أن تكون POST
         headers: {
-          Authorization: "Bearer " + accessToken
-        }
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + accessToken
+        },
+        body: JSON.stringify({ // جسم الطلب
+          pageSize: 50
+        })
       })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          // التعامل مع الأخطاء بشكل أفضل
+          return res.json().then(errData => {
+            console.error("خطأ في استجابة API:", errData);
+            throw new Error(`خطأ في استجابة API: ${res.status} - ${JSON.stringify(errData)}`);
+          });
+        }
+        return res.json();
+      })
       .then(data => {
         const gallery = document.getElementById("gallery");
+        // الـ photos بتكون داخل mediaItems في الرد
         if (data.mediaItems && data.mediaItems.length > 0) {
           data.mediaItems.forEach(photo => {
             const img = document.createElement("img");
-            img.src = photo.baseUrl;
+            img.src = photo.baseUrl; // بعض الصور ممكن تحتاج إضافة '=w<width>-h<height>'
             gallery.appendChild(img);
           });
         } else {
@@ -71,6 +87,8 @@
       })
       .catch(err => {
         console.error("فشل تحميل الصور", err);
+        // عرض رسالة خطأ للمستخدم
+        document.getElementById("gallery").innerHTML = `<p>حدث خطأ أثناء تحميل الصور: ${err.message || err}</p>`;
       });
     }
   </script>
