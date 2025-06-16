@@ -59,6 +59,10 @@
       .then(res => res.json())
       .then(data => {
         const gallery = document.getElementById("gallery");
+        if (!data.photos || data.photos.length === 0) {
+          gallery.innerHTML = "<p>لا توجد صور لعرضها.</p>";
+          return;
+        }
         data.photos.forEach(photo => {
           const img = document.createElement("img");
           img.src = photo.baseUrl;
@@ -67,6 +71,7 @@
       })
       .catch(err => {
         console.error("Error loading photos", err);
+        document.getElementById("gallery").innerHTML = "<p>حدث خطأ أثناء تحميل الصور.</p>";
       });
     }
   </script>
