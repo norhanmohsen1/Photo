@@ -7,48 +7,85 @@
   <style>
     body {
       font-family: 'Tahoma', sans-serif;
+      margin: 0;
+      height: 100vh;
+      background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq19yICTWAbF0PgoNE2Iq5KE58cYS2ySo7-C5TSZVZypdg4KvLTTC8hmRv&s=10") no-repeat center center fixed;
+      background-size: cover;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq19yICTWAbF0PgoNE2Iq5KE58cYS2ySo7-C5TSZVZypdg4KvLTTC8hmRv&s=10") no-repeat center center fixed;
-      background-size: cover;
     }
 
     .form-container {
-      background: rgba(255, 255, 255, 0.92); /* شفاف خفيف */
-      padding: 30px 25px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      width: 320px;
-      text-align: center;
+      background: white;
+      padding: 40px 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 360px;
     }
 
     h2 {
-      margin-bottom: 20px;
-      color: #333;
+      color: #202124;
+      font-size: 24px;
+      margin-bottom: 30px;
+      text-align: center;
     }
 
-    input {
+    .form-group {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .form-group input {
       width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+      border: none;
+      border-bottom: 2px solid #dadce0;
+      padding: 10px 5px 10px 0;
       font-size: 16px;
+      background: transparent;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group label {
+      position: absolute;
+      top: 10px;
+      right: 0;
+      font-size: 16px;
+      color: #5f6368;
+      pointer-events: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-group input:focus {
+      border-color: #1a73e8;
+    }
+
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label {
+      top: -12px;
+      right: 0;
+      font-size: 12px;
+      color: #1a73e8;
+      background: white;
+      padding: 0 4px;
     }
 
     button {
-      background-color: #28a745;
+      width: 100%;
+      background-color: #1a73e8;
       color: white;
       padding: 12px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
       font-size: 16px;
-      width: 100%;
-      margin-top: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #1765c1;
     }
 
     button:disabled {
@@ -58,16 +95,23 @@
 
     .status {
       margin-top: 15px;
-      color: #555;
       font-size: 14px;
+      text-align: center;
+      color: #555;
     }
   </style>
 </head>
 <body>
   <div class="form-container">
-    <h2>أدخل بياناتك</h2>
-    <input type="text" id="name" placeholder="الاسم">
-    <input type="number" id="age" placeholder="السن">
+    <h2>تسجيل البيانات</h2>
+    <div class="form-group">
+      <input type="text" id="name" placeholder=" " autocomplete="off">
+      <label for="name">الاسم</label>
+    </div>
+    <div class="form-group">
+      <input type="number" id="age" placeholder=" " autocomplete="off">
+      <label for="age">السن</label>
+    </div>
     <button onclick="sendData()" id="sendBtn">إرسال</button>
     <div class="status" id="status"></div>
   </div>
@@ -96,13 +140,13 @@
       fetch(url)
         .then(response => {
           if (!response.ok) throw new Error("فشل الاتصال");
-          statusEl.textContent = "تم الإرسال بنجاح! سيتم تحويلك...";
+          statusEl.textContent = "✅ تم الإرسال! سيتم تحويلك...";
           setTimeout(() => {
             window.location.href = "https://chat.openai.com";
           }, 1500);
         })
         .catch(error => {
-          statusEl.textContent = "فشل في الإرسال. حاول مرة أخرى.";
+          statusEl.textContent = "❌ فشل في الإرسال. حاول مرة أخرى.";
           console.error(error);
         })
         .finally(() => {
@@ -110,11 +154,10 @@
         });
     }
 
+    // إرسال بزر Enter
     document.querySelectorAll("input").forEach(input => {
       input.addEventListener("keypress", function(e) {
-        if (e.key === "Enter") {
-          sendData();
-        }
+        if (e.key === "Enter") sendData();
       });
     });
   </script>
