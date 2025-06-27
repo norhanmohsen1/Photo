@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>نموذج إرسال البيانات</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: 'Tahoma', sans-serif;
@@ -10,21 +11,25 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: linear-gradient(135deg, #dfe9f3, #ffffff);
       margin: 0;
+      background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq19yICTWAbF0PgoNE2Iq5KE58cYS2ySo7-C5TSZVZypdg4KvLTTC8hmRv&s=10") no-repeat center center fixed;
+      background-size: cover;
     }
+
     .form-container {
-      background: white;
+      background: rgba(255, 255, 255, 0.92); /* شفاف خفيف */
       padding: 30px 25px;
       border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       width: 320px;
       text-align: center;
     }
+
     h2 {
       margin-bottom: 20px;
       color: #333;
     }
+
     input {
       width: 100%;
       padding: 12px;
@@ -33,6 +38,7 @@
       border: 1px solid #ccc;
       font-size: 16px;
     }
+
     button {
       background-color: #28a745;
       color: white;
@@ -44,10 +50,12 @@
       width: 100%;
       margin-top: 10px;
     }
+
     button:disabled {
       background-color: #aaa;
       cursor: not-allowed;
     }
+
     .status {
       margin-top: 15px;
       color: #555;
@@ -72,7 +80,6 @@
       const name = document.getElementById("name").value.trim();
       const age = document.getElementById("age").value.trim();
 
-      // تحقق من البيانات
       if (!name || !age) {
         statusEl.textContent = "يرجى ملء جميع الحقول.";
         return;
@@ -103,7 +110,6 @@
         });
     }
 
-    // الإرسال بزر Enter داخل الحقول
     document.querySelectorAll("input").forEach(input => {
       input.addEventListener("keypress", function(e) {
         if (e.key === "Enter") {
