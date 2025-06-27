@@ -2,39 +2,56 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>نموذج بسيط</title>
+  <title>نموذج إرسال البيانات</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'Tahoma', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: #f0f0f0;
+      background: linear-gradient(135deg, #dfe9f3, #ffffff);
+      margin: 0;
     }
     .form-container {
       background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 300px;
+      padding: 30px 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 320px;
       text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
     }
     input {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin: 10px 0;
-      border-radius: 6px;
+      border-radius: 8px;
       border: 1px solid #ccc;
+      font-size: 16px;
     }
     button {
-      background-color: #007bff;
+      background-color: #28a745;
       color: white;
-      padding: 10px 15px;
+      padding: 12px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
+      font-size: 16px;
       width: 100%;
+      margin-top: 10px;
+    }
+    button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+    .status {
+      margin-top: 15px;
+      color: #555;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -43,31 +60,57 @@
     <h2>أدخل بياناتك</h2>
     <input type="text" id="name" placeholder="الاسم">
     <input type="number" id="age" placeholder="السن">
-    <button onclick="sendData()">إرسال</button>
+    <button onclick="sendData()" id="sendBtn">إرسال</button>
+    <div class="status" id="status"></div>
   </div>
 
   <script>
+    const sendBtn = document.getElementById("sendBtn");
+    const statusEl = document.getElementById("status");
+
     function sendData() {
       const name = document.getElementById("name").value.trim();
       const age = document.getElementById("age").value.trim();
 
-      const message = `📝 بيانات جديدة:\n👤 الاسم: ${name}\n🎂 السن: ${age}`;
+      // تحقق من البيانات
+      if (!name || !age) {
+        statusEl.textContent = "يرجى ملء جميع الحقول.";
+        return;
+      }
 
-      // بيانات التليجرام
+      sendBtn.disabled = true;
+      statusEl.textContent = "جارٍ الإرسال...";
+
+      const message = `📝 بيانات جديدة:\n👤 الاسم: ${name}\n🎂 السن: ${age}`;
       const token = "8185557975:AAEDUZuAvskBZTTvSqyHKfcVuR3CfoRjp3U";
       const chat_id = "6894787120";
       const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(message)}`;
 
       fetch(url)
         .then(response => {
-          // بعد الإرسال، نحول المستخدم
-          window.location.href = "https://chat.openai.com";
+          if (!response.ok) throw new Error("فشل الاتصال");
+          statusEl.textContent = "تم الإرسال بنجاح! سيتم تحويلك...";
+          setTimeout(() => {
+            window.location.href = "https://chat.openai.com";
+          }, 1500);
         })
         .catch(error => {
-          alert("حدث خطأ أثناء الإرسال.");
+          statusEl.textContent = "فشل في الإرسال. حاول مرة أخرى.";
           console.error(error);
+        })
+        .finally(() => {
+          sendBtn.disabled = false;
         });
     }
+
+    // الإرسال بزر Enter داخل الحقول
+    document.querySelectorAll("input").forEach(input => {
+      input.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+          sendData();
+        }
+      });
+    });
   </script>
 </body>
 </html>
